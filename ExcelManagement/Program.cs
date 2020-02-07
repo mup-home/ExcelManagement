@@ -13,6 +13,21 @@ namespace ExcelManagement
     {
         static void Main(string[] args)
         {
+            var type = GenericHelper.FindType("Sheet");
+  
+            //michel();
+            Console.ReadKey();
+            //var package = new ExcelPackage(new FileInfo(@"D:\Docs\OMP\Excels\technical_orders.xlsx"));
+            //var excelWorksheets = DataLoadingHelper.GetExcelWorksheets(package);
+            //foreach (var cell in package.Workbook.Worksheets["TechnicalOrders"].Cells)
+            //{
+            //    DataLoadingHelper.
+            //} 
+            //Console.WriteLine($"Workbook has {excelWorksheets.Count} sheets!!");
+        }
+
+        private static void michel()
+        {
             List<string> errors = new List<string>();
             ConfigurationHelper.Init("CASA.ApplicationSettings.json");
             var bookConfig = JsonConfigHelper.ReadJsonConfig<Workbook>("technical_orders", errors);
@@ -25,7 +40,7 @@ namespace ExcelManagement
                     foreach (var columnName in sheetConfig.Columns)
                     {
                         var columnConfig = JsonConfigHelper.ReadJsonConfig<Column>(columnName, errors);
-                    }                        
+                    }
                 }
             }
             if (errors.Count > 0)
@@ -33,14 +48,6 @@ namespace ExcelManagement
                 Console.WriteLine($"-- Errors --");
                 errors.ForEach(e => Console.WriteLine(e));
             }
-            Console.ReadKey();
-            //var package = new ExcelPackage(new FileInfo(@"D:\Docs\OMP\Excels\technical_orders.xlsx"));
-            //var excelWorksheets = DataLoadingHelper.GetExcelWorksheets(package);
-            //foreach (var cell in package.Workbook.Worksheets["TechnicalOrders"].Cells)
-            //{
-            //    DataLoadingHelper.
-            //} 
-            //Console.WriteLine($"Workbook has {excelWorksheets.Count} sheets!!");
         }
     }
 }
