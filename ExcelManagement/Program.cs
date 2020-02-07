@@ -5,7 +5,6 @@ using OMP.BL.ExcelManagement.Helpers;
 using OMP.Shared;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ExcelManagement
 {
@@ -13,7 +12,8 @@ namespace ExcelManagement
     {
         static void Main(string[] args)
         {
-            var type = GenericHelper.FindType("Sheet");
+            ConfigurationHelper.Init("CASA.ApplicationSettings.json");
+            var entityType = GenericHelper.FindTypeByAssembly("Sheet", "ExcelManagement");
   
             //michel();
             Console.ReadKey();
@@ -26,23 +26,32 @@ namespace ExcelManagement
             //Console.WriteLine($"Workbook has {excelWorksheets.Count} sheets!!");
         }
 
-        private static void michel()
+        public static object GetWorkbook(string bookName, List<string> errors)
         {
-            List<string> errors = new List<string>();
-            ConfigurationHelper.Init("CASA.ApplicationSettings.json");
-            var bookConfig = JsonConfigHelper.ReadJsonConfig<Workbook>("technical_orders", errors);
-            foreach (var sheetName in bookConfig.Sheets)
+            object workbook = null;
+            var bookConfig = JsonConfigHelper.ReadJsonConfig<Workbook>(bookName, errors);
+            if (errors.Count == 0)
             {
-                Console.WriteLine($"Reading {sheetName} configuration.");
-                var sheetConfig = JsonConfigHelper.ReadJsonConfig<Sheet>(sheetName, errors);
-                if (!string.IsNullOrEmpty(sheetConfig.Name))
+                foreach (var sheetName in bookConfig.Sheets)
                 {
-                    foreach (var columnName in sheetConfig.Columns)
+                    var sheetConfig = JsonConfigHelper.ReadJsonConfig<Sheet>(sheetName, errors);
+                    if (!string.IsNullOrEmpty(sheetConfig.Name))
                     {
-                        var columnConfig = JsonConfigHelper.ReadJsonConfig<Column>(columnName, errors);
+                        foreach (var columnName in sheetConfig.Columns)
+                        {
+                            var columnConfig = JsonConfigHelper.ReadJsonConfig<Column>(columnName, errors);
+                        }
                     }
                 }
             }
+
+            PrintErrors(errors);
+
+            return workbook ?? null;
+        }
+
+        private static void PrintErrors(List<string> errors)
+        {
             if (errors.Count > 0)
             {
                 Console.WriteLine($"-- Errors --");
