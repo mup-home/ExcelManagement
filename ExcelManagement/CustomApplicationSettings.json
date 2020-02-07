@@ -1,0 +1,11 @@
+{
+  "CultureInfo": "es-ES",
+  "DateTimeFormat": "dd/mm/yyyy HH:mm",
+  "DecimalSeparator": ".",
+  "ShowFilterOnMoreThan": 5,
+  "UTC": true,
+  "SheetConfigPath": "D:/proyectos/ExcelManagement/excel_config",
+  "ExcelManagement": {
+    "SheetConfigPath": "Configuration/ExcelManagement"
+  }
+}

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OMP.BL.ExcelManagement.Common
+namespace OMP.BL.ExcelManagement.Entities
 {
-    public class SheetColumn
+    public class Column
     {
         public string Name { get; set; }
 

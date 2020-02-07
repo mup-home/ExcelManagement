@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using OMP.BL.ExcelManagement.Common;
+using OMP.BL.ExcelManagement.Entities;
 
 namespace OMP.BL.ExcelManagement.Validation
 {
-    class ColumnValidator: AbstractValidator<SheetColumn>
+    class ColumnValidator: AbstractValidator<Column>
     {
         public ColumnValidator()
         {

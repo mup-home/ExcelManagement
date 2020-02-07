@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OMP.BL.ExcelManagement.Common
+namespace OMP.BL.ExcelManagement.Entities
 {
     public class Sheet
     {
@@ -10,6 +10,8 @@ namespace OMP.BL.ExcelManagement.Common
 
         public bool ValidateFormat { get; set; }
 
-        public List<SheetColumn> Rows { get; set; }
+        public List<string> Columns { get; set; }
+
+        public List<Column> Rows { get; set; }
     }
 }

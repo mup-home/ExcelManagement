@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using OMP.BL.ExcelManagement.Common;
+using OMP.BL.ExcelManagement.Entities;
 
 namespace OMP.BL.ExcelManagement.Validation
 {

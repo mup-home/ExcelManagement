@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelManagement", "ExcelManagement\ExcelManagement.csproj", "{D9F18E5D-0377-439D-9167-308EAE46AC24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelManagement", "ExcelManagement\ExcelManagement.csproj", "{D9F18E5D-0377-439D-9167-308EAE46AC24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMP.Shared", "OMP.Shared\OMP.Shared.csproj", "{EAD61451-4D30-430A-A9F2-ED358692E0EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D9F18E5D-0377-439D-9167-308EAE46AC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9F18E5D-0377-439D-9167-308EAE46AC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9F18E5D-0377-439D-9167-308EAE46AC24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAD61451-4D30-430A-A9F2-ED358692E0EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD61451-4D30-430A-A9F2-ED358692E0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD61451-4D30-430A-A9F2-ED358692E0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD61451-4D30-430A-A9F2-ED358692E0EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
