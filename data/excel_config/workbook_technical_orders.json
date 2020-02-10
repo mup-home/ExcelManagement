@@ -1,6 +1,6 @@
 { 
-	"Name": "TechnicalOrders",
-	"Sheets":[ 
+	"name": "TechnicalOrders",
+	"sheets":[ 
 	  "technical_orders",
 	  "parts"
 	]

@@ -1,4 +1,4 @@
-﻿using OMP.BL.ExcelManagement.Enums;
+using OMP.BL.ExcelManagement.Enums;
 using OMP.Shared;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                 if (File.Exists(fileFullPath))
                 {
                     var jsonData = File.ReadAllText(fileFullPath);
-                    return Utf8Json.JsonSerializer.Deserialize<T>(jsonData, StandardResolver.Default);
+                    return Utf8Json.JsonSerializer.Deserialize<T>(jsonData, StandardResolver.CamelCase);
                 }
                 errors?.Add($"Configuration file: {configType}_{name}.json, not found");
                 return (T)Activator.CreateInstance(typeof(T));                

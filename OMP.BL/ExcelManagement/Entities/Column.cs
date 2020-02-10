@@ -6,12 +6,16 @@ namespace OMP.BL.ExcelManagement.Entities
     public class Column
     {
         public string Name { get; set; }
+        
+        public string DtoProperty { get; set; }
+
+        public string DbProperty { get; set; }
 
         public string ExcelColumnName { get; set; }
 
         public int Number { get; set; }
 
-        public Type ColumnType { get; set; }
+        public string ColumnType { get; set; }
 
         public bool IsPrimaryKey { get; set; }
 

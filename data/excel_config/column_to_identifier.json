@@ -1,0 +1,14 @@
+{
+  "name": "identifier",
+  "dtoProperty": "toId",
+  "dbProperty": "toId",
+  "excelColumnName": "identifier",
+  "number": 1,
+  "columnType": "String",
+  "isPrimaryKey": true,
+  "minLength": 7,
+  "maxLength": 10,
+  "mandatory": true,
+  "value": null,
+  "validationRules": []
+}

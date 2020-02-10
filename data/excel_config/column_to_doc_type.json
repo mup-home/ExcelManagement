@@ -1,0 +1,14 @@
+{
+  "name": "doc_type",
+  "dtoProperty": "DocType",
+  "dbProperty": "DocType",
+  "excelColumnName": "Doc Type",
+  "number": 4,
+  "columnType": "String",
+  "isPrimaryKey": false,
+  "minLength": 1,
+  "maxLength": 3,
+  "mandatory": false,
+  "value": null,
+  "validationRules": []
+}

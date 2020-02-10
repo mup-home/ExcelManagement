@@ -1,0 +1,14 @@
+{
+  "name": "TechnicalOrders",
+  "dataStartingRow": 1, 
+  "totalColumns": 5,
+  "validateFormat": true,
+  "columns": [
+	"to_identifier",
+	"to_revision",
+	"to_reference",
+	"to_tittle",
+	"to_doc_type"
+	],
+  "rows": []
+}

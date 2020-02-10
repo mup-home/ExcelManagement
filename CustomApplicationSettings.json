@@ -4,7 +4,7 @@
   "DecimalSeparator": ".",
   "ShowFilterOnMoreThan": 5,
   "UTC": true,
-  "SheetConfigPath": "D:/proyectos/ExcelManagement/excel_config",
+  "SheetConfigPath": "D:\\Proyectos\\ExcelManagement\\data\\excel_config",
   "ExcelManagement": {
     "SheetConfigPath": "Configuration/ExcelManagement"
   }

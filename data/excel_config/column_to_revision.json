@@ -1,0 +1,14 @@
+{
+  "name": "revision",
+  "dtoProperty": "revision",
+  "dbProperty": "revision",
+  "excelColumnName": "revision",
+  "number": 2,
+  "columnType": "String",
+  "isPrimaryKey": true,
+  "minLength": 2,
+  "maxLength": 2,
+  "mandatory": true,
+  "value": null,
+  "validationRules": []
+}

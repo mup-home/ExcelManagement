@@ -6,6 +6,8 @@ namespace OMP.BL.ExcelManagement.Entities
     {
         public string Name { get; set; }
 
+        public int DataStartingRow { get; set; }
+
         public int TotalColumns { get; set; }
 
         public bool ValidateFormat { get; set; }

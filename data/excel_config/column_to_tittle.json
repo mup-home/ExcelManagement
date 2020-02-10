@@ -1,0 +1,14 @@
+{
+  "name": "tittle",
+  "dtoProperty": "tittle",
+  "dbProperty": "tittle",
+  "excelColumnName": "title",
+  "number": 4,
+  "columnType": "String",
+  "isPrimaryKey": true,
+  "minLength": 5,
+  "maxLength": 50,
+  "mandatory": true,
+  "value": null,
+  "validationRules": []
+}

@@ -1,0 +1,14 @@
+{
+  "name": "to_identifier",
+  "dtoProperty": "toId",
+  "dbProperty": "toId",
+  "excelColumnName": "TechnicalOrder",
+  "number": 1,
+  "columnType": "String",
+  "isPrimaryKey": true,
+  "minLength": 7,
+  "maxLength": 10,
+  "mandatory": true,
+  "value": null,
+  "validationRules": []
+}

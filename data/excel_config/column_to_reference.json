@@ -1,0 +1,14 @@
+{
+  "name": "reference",
+  "dtoProperty": "reference",
+  "dbProperty": "reference",
+  "excelColumnName": "reference",
+  "number": 3,
+  "columnType": "String",
+  "isPrimaryKey": true,
+  "minLength": 7,
+  "maxLength": 10,
+  "mandatory": true,
+  "value": null,
+  "validationRules": []
+}

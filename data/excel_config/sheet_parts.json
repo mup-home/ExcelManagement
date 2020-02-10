@@ -1,0 +1,13 @@
+{
+  "name": "Parts",
+  "dataStartingRow": 1,  
+  "totalColumns": 4,
+  "validateFormat": true,
+  "columns": [
+	"part_to_identifier",
+	"part_code",
+	"part_status",
+	"part_type"
+	],
+  "rows": []
+}
