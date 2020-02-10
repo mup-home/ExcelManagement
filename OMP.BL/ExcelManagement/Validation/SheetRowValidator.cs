@@ -14,7 +14,7 @@ namespace OMP.BL.ExcelManagement.Validation
 
         private bool HasAnyData(Sheet sheet)
         {
-            return sheet.Rows.Count > 0;
+            return sheet.Data.Count > 0;
         }
     }
 }

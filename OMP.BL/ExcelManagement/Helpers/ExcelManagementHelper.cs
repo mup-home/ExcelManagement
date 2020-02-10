@@ -68,15 +68,18 @@ namespace OMP.BL.ExcelManagement.Helpers
             {
                 var sheetConfig = bookConfig.Sheets[sheet];
                 var worksheet = sheets.FirstOrDefault(s => s.Name.Equals(sheetConfig.Name, StringComparison.InvariantCulture));
+                var columnsConfig = bookConfig.SheetColumns[sheet];                
                 for (int i = sheetConfig.DataStartingRow + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
-                    var columnsConfig = bookConfig.SheetColumns[sheet];
+                    var rowData = new List<Column>();
                     foreach (var column in columnsConfig.Keys)
                     {
                         var columnConfig = columnsConfig[column];
                         columnConfig.Value = worksheet.Cells[i, columnConfig.Number].Value;
+                        rowData.Add(columnConfig);
                     }
-                }
+                    sheetConfig.Data.Add(rowData);
+                }               
             }            
         }
     }

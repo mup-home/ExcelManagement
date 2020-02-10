@@ -14,6 +14,6 @@ namespace OMP.BL.ExcelManagement.Entities
 
         public List<string> Columns { get; set; }
 
-        public List<Column> Rows { get; set; }
+        public List<List<Column>> Data { get; set; }
     }
 }
