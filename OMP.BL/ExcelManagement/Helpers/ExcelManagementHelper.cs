@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml;
 using OMP.BL.ExcelManagement.Entities;
+using OMP.BL.ExcelManagement.Validation;
 using OMP.Shared;
+using OMP.Shared.Extensions;
 
 namespace OMP.BL.ExcelManagement.Helpers
 {
@@ -50,6 +52,19 @@ namespace OMP.BL.ExcelManagement.Helpers
             return bookConfig;
         }
 
+        public static void ValidateBook(BookConfig bookConfig, List<string> errors)
+        {
+            foreach (var sheet in bookConfig.Sheets.Keys)
+            {
+                var sheetValidator = new SheetValidator();
+                var result = sheetValidator.Validate(bookConfig.Sheets[sheet]);
+                if (!result.IsValid)
+                {
+                    result.Errors.ToList().ForEach(e => errors.Add(e.ErrorMessage));
+                }
+            }
+        }
+
         public static ExcelPackage LoadBookData(string fileFullPath)
         {
             if (File.Exists(fileFullPath))
@@ -64,21 +79,22 @@ namespace OMP.BL.ExcelManagement.Helpers
         public static void ProcessSheetData(ExcelPackage excelPackage, BookConfig bookConfig, List<string> errors = null)
         {
             var sheets = excelPackage.Workbook.Worksheets.AsEnumerable();
-            foreach (var sheet in bookConfig.Sheets.Keys)
+            foreach (var sheetName in bookConfig.Sheets.Keys)
             {
-                var sheetConfig = bookConfig.Sheets[sheet];
-                var worksheet = sheets.FirstOrDefault(s => s.Name.Equals(sheetConfig.Name, StringComparison.InvariantCulture));
-                var columnsConfig = bookConfig.SheetColumns[sheet];                
-                for (int i = sheetConfig.DataStartingRow + 1; i <= worksheet.Dimension.End.Row; i++)
+                var sheet = bookConfig.Sheets[sheetName];
+                var worksheet = sheets.FirstOrDefault(s => s.Name.Equals(sheet.Name, StringComparison.InvariantCulture));
+                var columns = bookConfig.SheetColumns[sheetName];
+                for (int i = sheet.DataStartingRow + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
-                    var rowData = new List<Column>();
-                    foreach (var column in columnsConfig.Keys)
+                    var newRow = new SheetRow() { RowNumber = i };
+                    foreach (var column in columns.Keys)
                     {
-                        var columnConfig = columnsConfig[column];
-                        columnConfig.Value = worksheet.Cells[i, columnConfig.Number].Value;
-                        rowData.Add(columnConfig);
+                        var columnConfig = columns[column];
+                        var newColumnData = columnConfig.DeepClone();
+                        newColumnData.Value = worksheet.Cells[i, newColumnData.Number].Value;
+                        newRow.Data.Add(newColumnData);
                     }
-                    sheetConfig.Data.Add(rowData);
+                    bookConfig.Sheets[sheetName].Data.Add(newRow);                    
                 }               
             }            
         }

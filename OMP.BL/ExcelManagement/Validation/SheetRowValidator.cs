@@ -1,20 +1,16 @@
-﻿using FluentValidation;
+using System.Collections.Generic;
+using FluentValidation;
+using FluentValidation.Validators;
 using OMP.BL.ExcelManagement.Entities;
 
 namespace OMP.BL.ExcelManagement.Validation
 {
-    public class SheetRowValidator: AbstractValidator<Sheet>
+    public class SheetRowValidator: AbstractValidator<SheetRow>
     {
-        public SheetRowValidator()
+        public SheetRowValidator(string sheetName)
         {
-            RuleFor(r => r.Name).NotEmpty();
-            RuleFor(r => r.TotalColumns).GreaterThan(2);
-            RuleFor(r => r).Must(HasAnyData).When(r => r.ValidateFormat);
-        }
-
-        private bool HasAnyData(Sheet sheet)
-        {
-            return sheet.Data.Count > 0;
+            RuleFor(r => r.Data).NotNull();
+            RuleForEach(r => r.Data).SetValidator(r => new ColumnValidator(sheetName, r.RowNumber)).When(r => r.Data.Count > 0);
         }
     }
 }

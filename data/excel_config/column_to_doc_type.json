@@ -3,7 +3,7 @@
   "dtoProperty": "DocType",
   "dbProperty": "DocType",
   "excelColumnName": "Doc Type",
-  "number": 4,
+  "number": 5,
   "columnType": "String",
   "isPrimaryKey": false,
   "minLength": 1,

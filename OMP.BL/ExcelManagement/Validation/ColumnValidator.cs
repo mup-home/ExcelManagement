@@ -1,17 +1,26 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
 using OMP.BL.ExcelManagement.Entities;
 
 namespace OMP.BL.ExcelManagement.Validation
 {
     class ColumnValidator: AbstractValidator<Column>
     {
-        public ColumnValidator()
+        public ColumnValidator(string sheetName, int rowNumber)
         {
             RuleFor(c => c.Name).NotEmpty();
-            RuleFor(c => c.Value).Custom((value, context) => {
-                if (context.InstanceToValidate.GetType().GetProperty("ColumnType").GetValue(context.InstanceToValidate) != value.GetType())
-                    context.AddFailure("Invalid property value type");
-                });
+            When(c => c.Mandatory, () => {
+                RuleFor(c => c.Value)
+                    .Cascade(CascadeMode.StopOnFirstFailure)
+                    .NotEmpty()
+                    .WithMessage(c => $"Sheet: {sheetName} [Row: {rowNumber}, Column: {c.ExcelColumnName}] is mandatory.");
+            });
+            When(c => !c.Mandatory, () => {
+                RuleFor(c => c.Value)
+                    .Cascade(CascadeMode.StopOnFirstFailure)
+                    .SetValidator(new ColumnValueValidator(sheetName, rowNumber))
+                    .When(c => c.Value != null);
+            });            
         }
     }
 }
