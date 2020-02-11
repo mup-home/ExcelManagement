@@ -5,10 +5,10 @@
   "excelColumnName": "reference",
   "number": 3,
   "columnType": "String",
-  "isPrimaryKey": true,
-  "minLength": 7,
-  "maxLength": 10,
+  "isPrimaryKey": false,
   "mandatory": true,
   "value": null,
-  "validationRules": []
+  "validationRules": [
+    "length[7,10]"
+  ]
 }

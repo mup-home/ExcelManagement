@@ -19,10 +19,6 @@ namespace OMP.BL.ExcelManagement.Entities
 
         public bool IsPrimaryKey { get; set; }
 
-        public int MinLength { get; set; }
-
-        public int MaxLength { get; set; }
-
         public bool Mandatory { get; set; }
 
         public object Value { get; set; }

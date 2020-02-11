@@ -60,7 +60,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                 var result = sheetValidator.Validate(bookConfig.Sheets[sheet]);
                 if (!result.IsValid)
                 {
-                    result.Errors.ToList().ForEach(e => errors.Add(e.ErrorMessage));
+                    result.Errors.OrderBy(e => e.Severity).ToList().ForEach(e => errors.Add(e.ErrorMessage));
                 }
             }
         }

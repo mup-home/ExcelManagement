@@ -6,9 +6,9 @@
   "number": 1,
   "columnType": "String",
   "isPrimaryKey": true,
-  "minLength": 7,
-  "maxLength": 10,
   "mandatory": true,
   "value": null,
-  "validationRules": []
+  "validationRules": [
+    "length[7,10]"
+  ]
 }

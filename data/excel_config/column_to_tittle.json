@@ -5,10 +5,10 @@
   "excelColumnName": "title",
   "number": 4,
   "columnType": "String",
-  "isPrimaryKey": true,
-  "minLength": 5,
-  "maxLength": 50,
+  "isPrimaryKey": false,
   "mandatory": true,
   "value": null,
-  "validationRules": []
+  "validationRules": [
+    "length[5,15]"
+  ]
 }
