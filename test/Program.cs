@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OMP.BL.ExcelManagement.Helpers;
 using OMP.Shared;
+using System;
 
-namespace test
+namespace Test
 {
     class Program
     {
@@ -11,7 +11,7 @@ namespace test
         {
             ConfigurationHelper.Init("CASA.ApplicationSettings.json");
             var errors = new List<string>();
-            var bookConfig = ExcelManagementHelper.LoadWorkbookConfig("technical_orders", errors);
+            ExcelManagementHelper.LoadWorkBookConfig("technical_orders", errors);
             if (errors.Count != 0)
             {
                 Console.WriteLine("-- Errors --");
@@ -20,9 +20,10 @@ namespace test
             else
             {
                 Console.WriteLine("Book configuration loaded successfully!!");
-                var bookData = ExcelManagementHelper.LoadBookData(@"D:\Proyectos\ExcelManagement\data\import\technical_orders.ok.xlsx");
-                ExcelManagementHelper.ProcessSheetData(bookData, bookConfig);
-                ExcelManagementHelper.ValidateBook(bookConfig, errors);
+                // var bookData = ExcelManagementHelper.LoadBookData(@"D:\Proyectos\ExcelManagement\data\import\technical_orders.ok.xlsx");
+                var bookData = ExcelManagementHelper.LoadBookData(@"D:\Proyectos\ExcelManagement\data\import\technical_orders.xlsx");
+                ExcelManagementHelper.ProcessSheetData(bookData);                
+                ExcelManagementHelper.ValidateBook(errors);
                 if (errors.Count > 0)
                 {
                     Console.WriteLine("-- Validation Errors --");
@@ -30,7 +31,16 @@ namespace test
                 }
                 else
                 {
-                    ValidatorHelper.ValidateDuplicatedSheetRows(bookConfig.Sheets, errors);
+                    ValidatorHelper.ValidateDuplicatedSheetRows(errors);
+                    if (errors.Count > 0)
+                    {
+                        Console.WriteLine("-- Validation Errors --");
+                        errors.ForEach(e => Console.WriteLine(e));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Book ready to import!!");
+                    }
                 }
             }
         }

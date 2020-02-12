@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OMP.BL\OMP.BL.csproj" />
-    <ProjectReference Include="..\OMP.Shared\OMP.Shared.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

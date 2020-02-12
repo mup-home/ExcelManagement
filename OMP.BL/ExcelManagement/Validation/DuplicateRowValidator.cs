@@ -32,13 +32,13 @@ namespace OMP.BL.ExcelManagement.Validation
             data.ForEach(r => {
                 var row = new List<KeyValuePair<string, object>>();
                 row.Add(new KeyValuePair<string, object>("rowNumber", r.RowNumber));
-                r.Data.ForEach(c => {
+                /* r.Data.ForEach(c => {
                     if (c.IsPrimaryKey)
                     {
                         primariesKey.Add(c.Name);
                     }
                     row.Add(new KeyValuePair<string, object>(c.Name, c.Value));
-                });
+                }); */
                 rows.Add(row);
             });
             

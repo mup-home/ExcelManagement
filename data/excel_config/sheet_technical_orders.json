@@ -1,9 +1,11 @@
 {
-  "name": "TechnicalOrders",
+  "name": "technical_orders",
+  "sheetName": "TechnicalOrders",  
   "dataStartingRow": 1, 
   "totalColumns": 5,
   "validateFormat": true,
   "columns": [
+	"sheet_row",  
 	"to_identifier",
 	"to_revision",
 	"to_reference",

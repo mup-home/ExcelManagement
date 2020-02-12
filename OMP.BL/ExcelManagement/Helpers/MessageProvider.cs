@@ -18,6 +18,10 @@ namespace OMP.BL.ExcelManagement.Helpers
                 case ExcelValidationError.SheetWithoutData:
                     message = $"Sheet: {sheetName} - has not data.";
                     break;
+                
+                case ExcelValidationError.MandatoryFieldEmpty:
+                    message = $"is mandatory.";
+                    break;
 
                 default:
                 break;
@@ -30,12 +34,17 @@ namespace OMP.BL.ExcelManagement.Helpers
             throw new NotImplementedException();
         }
 
-        internal static string GetPropertyValueMessage()
+        internal static string GetPropertyValidationErrorMessage()
         {
-            return GetBasePropertyValidatorError() + " -  Value: {ColumnValue}, length must be between {ColumnMinLength} and {ColumnMaxLength} characters.";
+            return GetBasePropertyValidatorError() + " - {ValidationErrorMessage}";
         }
 
-        private static string GetBasePropertyValidatorError() 
+        internal static string GetLengthRuleError(string value, int minLength, int maxLength)
+        {
+            return $"Value: {value}, length must be between {minLength} and {maxLength} characters.";
+        }
+
+        internal static string GetBasePropertyValidatorError() 
         {
             return "Sheet: {SheetName} [Row: {RowNumber}, Column: {ColumnName}]";
         }

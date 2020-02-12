@@ -12,15 +12,22 @@ namespace OMP.BL.ExcelManagement.Helpers
 {
     public static class ExcelManagementHelper
     {
+        public static BookConfig BookConfig { get; }
+
+        static ExcelManagementHelper()
+        {
+            BookConfig = new BookConfig();
+            // BookConfig = LoadWorkBookConfig("technical_orders", errors);
+        }
+
         public static Workbook GetBookConfig(string bookName, List<string> errors)
         {
             return JsonConfigHelper.ReadJsonConfig<Workbook>(bookName, errors);
         }
 
-        public static BookConfig LoadWorkbookConfig(string bookName, List<string> errors)
+        public static void LoadWorkBookConfig(string bookName, List<string> errors)
         {
-            var bookConfig = new BookConfig();
-             var configPath = $"{ConfigurationHelper.GetKeyValue("SheetConfigPath")}";
+            var configPath = $"{ConfigurationHelper.GetKeyValue("SheetConfigPath")}";
             var workbook = JsonConfigHelper.ReadJsonConfig<Workbook>(bookName, errors);
             if (errors.Count == 0) {
                 foreach (var sheet in workbook.Sheets)
@@ -28,7 +35,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                     var sheetConfig = JsonConfigHelper.ReadJsonConfig<Sheet>(sheet, errors);
                     if (!string.IsNullOrEmpty(sheetConfig.Name)) 
                     {
-                        bookConfig.Sheets.Add(sheet, sheetConfig);
+                        BookConfig.Sheets.Add(sheet, sheetConfig);
                         var sheetColumns = new Dictionary<string, Column>();
                         foreach (var column in sheetConfig.Columns)
                         {
@@ -41,7 +48,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                                 errors.Add($"Sheet: {sheet} - Config file for column: {column}, not found.");
                             }
                         }
-                        bookConfig.SheetColumns.Add(sheet, sheetColumns);
+                        BookConfig.SheetColumns.Add(sheet, sheetColumns);
                     }
                     else
                     {
@@ -49,15 +56,14 @@ namespace OMP.BL.ExcelManagement.Helpers
                     }
                 }
             }
-            return bookConfig;
         }
 
-        public static void ValidateBook(BookConfig bookConfig, List<string> errors)
+        public static void ValidateBook(List<string> errors)
         {
-            foreach (var sheet in bookConfig.Sheets.Keys)
+            var sheetValidator = new SheetValidator();
+            foreach (var sheet in BookConfig.Sheets.Keys)
             {
-                var sheetValidator = new SheetValidator();
-                var result = sheetValidator.Validate(bookConfig.Sheets[sheet]);
+                var result = sheetValidator.Validate(BookConfig.Sheets[sheet]);
                 if (!result.IsValid)
                 {
                     result.Errors.OrderBy(e => e.Severity).ToList().ForEach(e => errors.Add(e.ErrorMessage));
@@ -76,25 +82,26 @@ namespace OMP.BL.ExcelManagement.Helpers
             throw new FileNotFoundException($"File: {fileFullPath}, not found");           
         }
 
-        public static void ProcessSheetData(ExcelPackage excelPackage, BookConfig bookConfig, List<string> errors = null)
+        public static void ProcessSheetData(ExcelPackage excelPackage, List<string> errors = null)
         {
             var sheets = excelPackage.Workbook.Worksheets.AsEnumerable();
-            foreach (var sheetName in bookConfig.Sheets.Keys)
+            foreach (var sheetName in BookConfig.Sheets.Keys)
             {
-                var sheet = bookConfig.Sheets[sheetName];
-                var worksheet = sheets.FirstOrDefault(s => s.Name.Equals(sheet.Name, StringComparison.InvariantCulture));
-                var columns = bookConfig.SheetColumns[sheetName];
+                var sheet = BookConfig.Sheets[sheetName];
+                var worksheet = sheets.FirstOrDefault(s => s.Name.Equals(sheet.SheetName, StringComparison.InvariantCulture));
+                var columns = BookConfig.SheetColumns[sheetName];
                 for (int i = sheet.DataStartingRow + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
-                    var newRow = new SheetRow() { RowNumber = i };
+                    var sheetRow = new Dictionary<string, object>();
                     foreach (var column in columns.Keys)
                     {
                         var columnConfig = columns[column];
-                        var newColumnData = columnConfig.DeepClone();
-                        newColumnData.Value = worksheet.Cells[i, newColumnData.Number].Value;
-                        newRow.Data.Add(newColumnData);
-                    }
-                    bookConfig.Sheets[sheetName].Data.Add(newRow);                    
+                        object value = column == "sheet_row" ? new object() : worksheet.Cells[i, columnConfig.Number].Value;
+                        if (column != "sheet_row")
+                            sheetRow.Add(columnConfig.Name, value);
+                    }                   
+                    object sheetRowObject = sheetRow.ToAnonymousObject();
+                    BookConfig.Sheets[sheetName].Data.Add(sheetRowObject);                    
                 }               
             }            
         }

@@ -21,6 +21,8 @@ namespace OMP.BL.ExcelManagement.Entities
 
         public bool Mandatory { get; set; }
 
+        public int RowNumber { get; set; }
+
         public object Value { get; set; }
 
         public List<string> ValidationRules { get; set; }

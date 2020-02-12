@@ -8,17 +8,23 @@ namespace OMP.BL.ExcelManagement.Helpers
 {
     public static class ValidatorHelper
     {
-        public static void ValidateDuplicatedSheetRows(Dictionary<string, Sheet> sheets, List<string> errors)
+        public static void ValidateSheetRows(Sheet sheet, List<string> errors)
         {
+
+        }
+
+        public static void ValidateDuplicatedSheetRows(List<string> errors)
+        {
+            var sheets = ExcelManagementHelper.BookConfig.Sheets;
             foreach (var sheet in sheets.Keys)
             {
-                List<SheetRow> sheetData = sheets[sheet].Data;
+                var sheetData = sheets[sheet].Data;
                 var primariesKey = new List<string>();
                     var rows = new List<Dictionary<string, object>>();
                 sheetData.ForEach(r =>
                 {
                     var row = new Dictionary<string, object>();
-                    row.Add("rowNumber", r.RowNumber);
+                    /* row.Add("rowNumber", r.RowNumber);
                     r.Data.ForEach(c =>
                     {
                         if (c.IsPrimaryKey && !primariesKey.Any(i => i == c.Name))
@@ -26,7 +32,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                             primariesKey.Add(c.Name);
                         }
                         row.Add(c.Name, c.Value);
-                    });
+                    }); */
                     rows.Add(row);
                 });
 

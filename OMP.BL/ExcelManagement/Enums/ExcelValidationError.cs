@@ -4,6 +4,7 @@ namespace OMP.BL.ExcelManagement.Enums
     {
         SheetWithoutData,
         InvalidLengthRuleFormat,
-        DuplicatePrimaryKey
+        DuplicatePrimaryKey,
+        MandatoryFieldEmpty
     }
 }

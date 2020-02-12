@@ -5,6 +5,8 @@ namespace OMP.BL.ExcelManagement.Entities
     public class Sheet
     {
         public string Name { get; set; }
+        
+        public string SheetName { get; set; }
 
         public int DataStartingRow { get; set; }
 
@@ -14,6 +16,6 @@ namespace OMP.BL.ExcelManagement.Entities
 
         public List<string> Columns { get; set; }
 
-        public List<SheetRow> Data { get; set; }
+        public List<object> Data { get; set; }
     }
 }
