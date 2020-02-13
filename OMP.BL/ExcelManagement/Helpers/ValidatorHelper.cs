@@ -4,23 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentValidation.Validators;
 using OMP.BL.ExcelManagement.Entities;
+using OMP.BL.ExcelManagement.Extensions;
 
 namespace OMP.BL.ExcelManagement.Helpers
 {
     public static class ValidatorHelper
     {
-        public static void BuildContextMessage(PropertyValidatorContext context, string sheetName, int rowNumber, string columnName, string errorMessage)
-        {
-            context.MessageFormatter
-                .AppendArgument("SheetName", sheetName)
-                .AppendArgument("RowNumber", rowNumber)
-                .AppendArgument("ColumnName", columnName)
-                .AppendArgument("ValidationErrorMessage", errorMessage);
-        }
-
         public static void ValidateSheetRows(Sheet sheet, List<string> errors)
         {
-
         }
 
         public static void ValidateDuplicatedSheetRows(List<string> errors)
@@ -28,55 +19,39 @@ namespace OMP.BL.ExcelManagement.Helpers
             var sheets = ExcelManagementHelper.BookConfig.Sheets;
             foreach (var sheet in sheets.Keys)
             {
+                var primariesKey = GetSheetPrimariesKey(sheet);
                 var sheetData = sheets[sheet].Data;
-                var primariesKey = new List<string>();
-                    var rows = new List<Dictionary<string, object>>();
-                sheetData.ForEach(r =>
-                {
-                    var row = new Dictionary<string, object>();
-                    /* row.Add("rowNumber", r.RowNumber);
-                    r.Data.ForEach(c =>
-                    {
-                        if (c.IsPrimaryKey && !primariesKey.Any(i => i == c.Name))
-                        {
-                            primariesKey.Add(c.Name);
-                        }
-                        row.Add(c.Name, c.Value);
-                    }); */
-                    rows.Add(row);
-                });
 
+                /* var item = sheetData.First();
+                var param = Expression.Parameter(item.GetType(),"o");
+                var exp1 = Expression.Property(param, item.GetType().GetProperty("identifier"));
+                var exp2 = Expression.Property(param, item.GetType().GetProperty("revision")); */
 
-                rows.ForEach(r =>
+                // MemberExpression member = Expression.Property(param, "identifier");
+                //var uniqueKey = Expression.Lambda<Func<object, bool>>(member, param); 
+                //var uniqueKey = Expression.Lambda<Func<object, bool>>(member, param); 
+                var duplicates  = sheetData.GetDuplicates(primariesKey);
+                string rowsWithDuplicateUniqueKeys = sheetData.GetDuplicateUniqueKeyRows(primariesKey, duplicates.Keys.ToList());
+                foreach (var key in duplicates.Keys)
                 {
-                    string rowKey = "";
-                    foreach (var primaryKey in primariesKey)
-                    {
-                        rowKey += !string.IsNullOrEmpty(rowKey) ? "," : "";
-                        rowKey += r[primaryKey].ToString();
-                    }
-                    r.Add("rowKey", rowKey);
-                });
-
-                var duplicates = rows
-                    .SelectMany(d => d)
-                    .Where(d => d.Key.Equals("rowKey"))
-                    .GroupBy(d => d.Value)
-                    .Where(x => x.Count() > 1)
-                    .Select(v => v.Key.ToString())
-                    .ToList();
-
-                /* duplicates.ForEach(d => 
-                {
-                    var keys = d.Split(',');
-                    Expression<Func<Column, bool>> predicate = Expression.Lambda<Func<Column, bool>>(c => c.);
-                }); */
-               
-                /* primariesKey.ForEach(k =>
-                {
-                    var row = sheetData.Where(r => r.Data.Where(c => c.Name.Equals(k) && c.Value.ToString().Equals()));
-                }); */
+                    var keys = key.Split(',');
+                    errors.Add($"Sheet: {sheet}, rows: {keys[0]}, {rowsWithDuplicateUniqueKeys};  has same unique key values for columns: {primariesKey.ToString()}");
+                } 
             }
+        }
+
+        private static List<string> GetSheetPrimariesKey(string sheet)
+        {
+            var sheetPrimariesKey = new List<string>();
+            var sheetColumns = ExcelManagementHelper.BookConfig.SheetColumns;            
+            sheetColumns.TryGetValue(sheet, out var columns);
+            foreach (var columnName in columns.Keys)
+            {
+                if(columns[columnName].IsPrimaryKey) {
+                    sheetPrimariesKey.Add(columns[columnName].Name);
+                }
+            }
+            return sheetPrimariesKey;
         }
     }
 }

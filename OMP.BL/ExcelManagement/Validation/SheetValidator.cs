@@ -18,7 +18,7 @@ namespace OMP.BL.ExcelManagement.Validation
             RuleFor(s => s.Data)
                 .NotNull()
                 .WithMessage(s => MessageProvider.GetErrorMessage(ExcelValidationError.SheetWithoutData, s.Name));
-            //.Must(HasNotDuplicated);
+                //.SetValidator(s => new DuplicateRowValidator(s.Name));
             RuleForEach(s => s.Data)
                 .SetValidator(s => new SheetRowValidator(s.Name))
                 .When(s => s.Data != null && s.Data.Count > 0);

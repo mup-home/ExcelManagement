@@ -12,14 +12,9 @@ namespace OMP.BL.ExcelManagement.Validation
         {
             RuleForEach(r => r.GetType().GetProperties())
                 .SetValidator(new ObjectPropertyNotEmptyValidator(sheetName))
-                .WithSeverity(Severity.Error);
-            RuleForEach(r => r.GetType().GetProperties())
+                .WithSeverity(Severity.Error)
                 .SetValidator(new ObjectPropertyLengthValidator(sheetName))
                 .WithSeverity(Severity.Warning);
-                //.WithMessage(MessageProvider.GetErrorMessage(ExcelValidationError.SheetWithoutData, sheetName));
-            /* RuleForEach(r => r.GetType().GetProperty("Data").GetValue(r))
-                .SetValidator(r => new ColumnValidator(sheetName, int.Parse(typeof(object).GetProperty("RowNumber").GetValue(r).ToString())))
-                .When(r => r.GetType().GetProperty("Data").Count > 0); */
         }
     }
 }

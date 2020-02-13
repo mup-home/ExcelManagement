@@ -21,7 +21,7 @@ namespace OMP.BL.ExcelManagement.Validation
             if (!_sheetName.Equals(sheetName))
             {
                 _sheetName = sheetName;
-                _rowNumber = ExcelManagementHelper.BookConfig.Sheets[sheetName].DataStartingRow;
+                _rowNumber = ExcelManagementHelper.BookConfig.Sheets[sheetName].DataStartingRow - 1;
             };
         }
 
@@ -30,8 +30,9 @@ namespace OMP.BL.ExcelManagement.Validation
             throw new NotImplementedException();
         }
 
-        protected void InitializeValidator(PropertyValidatorContext context, string propertyName) 
+        protected void InitializeValidator(PropertyValidatorContext context, out string propertyName, out object propertyValue) 
         {
+            var objectPropertyName = ObjectPropertyHelper.GetPropertyValue("Name", context.PropertyValue);
             data = context.Instance as object;
             if (!rowObject.Equals(data)) {
                 _rowNumber += 1;
@@ -39,7 +40,9 @@ namespace OMP.BL.ExcelManagement.Validation
             }
 
             var sheetColumns = ExcelManagementHelper.BookConfig.SheetColumns[_sheetName];
-            column = sheetColumns.Values.FirstOrDefault(v => v.Name == propertyName);
+            column = sheetColumns.Values.FirstOrDefault(v => v.Name == objectPropertyName);
+            propertyName = objectPropertyName;
+            propertyValue =  ObjectPropertyHelper.GetPropertyValueAsObject(propertyName, data);
         }
 
         protected void BuildContextMessage(PropertyValidatorContext context, string columnName, string errorMessage)
