@@ -1,7 +1,7 @@
 {
   "name": "technical_orders",
-  "sheetName": "TechnicalOrders",  
-  "dataStartingRow": 1, 
+  "sheetName": "TechnicalOrders",
+  "dataStartingRow": 2, 
   "totalColumns": 5,
   "validateFormat": true,
   "columns": [

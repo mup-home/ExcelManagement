@@ -9,6 +9,7 @@
   "mandatory": true,
   "value": null,
   "validationRules": [
+    "mandatory",
     "length[2]"
   ]
 }

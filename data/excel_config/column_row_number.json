@@ -1,0 +1,12 @@
+{
+  "name": "rowNumber",
+  "dtoProperty": "",
+  "dbProperty": "",
+  "excelColumnName": "",
+  "number": 1,
+  "columnType": "number",
+  "isPrimaryKey": false,
+  "mandatory": false,
+  "value": null,
+  "validationRules": []
+}

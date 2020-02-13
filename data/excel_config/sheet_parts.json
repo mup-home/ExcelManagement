@@ -1,7 +1,7 @@
 {
   "name": "parts",
   "sheetName": "Parts",
-  "dataStartingRow": 1,  
+  "dataStartingRow": 2,  
   "totalColumns": 4,
   "validateFormat": true,
   "columns": [

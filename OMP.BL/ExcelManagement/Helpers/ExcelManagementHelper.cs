@@ -90,7 +90,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                 var sheet = BookConfig.Sheets[sheetName];
                 var worksheet = sheets.FirstOrDefault(s => s.Name.Equals(sheet.SheetName, StringComparison.InvariantCulture));
                 var columns = BookConfig.SheetColumns[sheetName];
-                for (int i = sheet.DataStartingRow + 1; i <= worksheet.Dimension.End.Row; i++)
+                for (int i = sheet.DataStartingRow; i <= worksheet.Dimension.End.Row; i++)
                 {
                     var sheetRow = new Dictionary<string, object>();
                     foreach (var column in columns.Keys)
@@ -99,7 +99,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                         object value = column == "sheet_row" ? new object() : worksheet.Cells[i, columnConfig.Number].Value;
                         if (column != "sheet_row")
                             sheetRow.Add(columnConfig.Name, value);
-                    }                   
+                    }
                     object sheetRowObject = sheetRow.ToAnonymousObject();
                     BookConfig.Sheets[sheetName].Data.Add(sheetRowObject);                    
                 }               

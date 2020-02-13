@@ -2,12 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentValidation.Validators;
 using OMP.BL.ExcelManagement.Entities;
 
 namespace OMP.BL.ExcelManagement.Helpers
 {
     public static class ValidatorHelper
     {
+        public static void BuildContextMessage(PropertyValidatorContext context, string sheetName, int rowNumber, string columnName, string errorMessage)
+        {
+            context.MessageFormatter
+                .AppendArgument("SheetName", sheetName)
+                .AppendArgument("RowNumber", rowNumber)
+                .AppendArgument("ColumnName", columnName)
+                .AppendArgument("ValidationErrorMessage", errorMessage);
+        }
+
         public static void ValidateSheetRows(Sheet sheet, List<string> errors)
         {
 
