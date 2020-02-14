@@ -1,13 +1,10 @@
 {
   "name": "part_status",
-  "dtoProperty": "Status",
+  "dbEntityProperty": "Status",
   "excelColumnName": "Status",
-  "dbProperty": "Status",
-  "number": 4,
+  "columnNumber": 4,
   "columnType": "String",
   "isPrimaryKey": false,
-  "mandatory": false,
-  "value": null,
   "validationRules": [
     "length[4,10]"
   ]

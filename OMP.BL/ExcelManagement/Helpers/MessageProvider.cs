@@ -1,5 +1,4 @@
 using System;
-using FluentValidation.Resources;
 using OMP.BL.ExcelManagement.Enums;
 
 namespace OMP.BL.ExcelManagement.Helpers
@@ -24,33 +23,25 @@ namespace OMP.BL.ExcelManagement.Helpers
                     break;
 
                 default:
-                break;
+                    throw new ArgumentException($"Error message for {errorType.ToString()} not defined yet");
             }
             return message;
         }
 
-        internal static IStringSource GetDuplicateRowMessage()
-        {
-            throw new NotImplementedException();
-        }
+        internal static string GetDuplicateRowMessage(string sheetName, string rowsWithDuplicateUniqueKeys, string uniqueKeyColumns) => $"Sheet: {sheetName}, rows: [{rowsWithDuplicateUniqueKeys}]; has same values for unique key columns: [{uniqueKeyColumns}]";
 
-        internal static string GetPropertyValidationErrorMessage()
-        {
-            return GetBasePropertyValidatorError() + " - {ValidationErrorMessage}";
-        }
+        internal static string GetPropertyValidationErrorMessage() => GetBasePropertyValidatorError() + " - {ValidationErrorMessage}";
 
-        internal static string GetLengthRuleError(string value, int minLength, int maxLength)
-        {
-            return $"Value: {value}, length must be between {minLength} and {maxLength} characters.";
-        }
+        internal static string GetLengthRuleError(string value, int minLength, int maxLength) => $"Value: {value}, length must be between {minLength} and {maxLength} characters.";
 
-        internal static string GetBasePropertyValidatorError() 
-        {
-            return "Sheet: {SheetName} [Row: {RowNumber}, Column: {ColumnName}]";
-        }
-        private static string GetBaseRuleValidationMessage(string sheetName, string propertyName)
-        {
-            return $"Sheet: {sheetName}, Property: {propertyName}";
-        }
+        internal static string GetBasePropertyValidatorError() => "Sheet: {SheetName} [Row: {RowNumber}, Column: {ColumnName}]";
+
+        private static string GetBaseRuleValidationMessage(string sheetName, string propertyName) => $"Sheet: {sheetName}, Property: {propertyName}";
+
+        internal static string GetInvalidJsonConfigFormat(string configType, string name, string message) => $"Invalid JSON format on file: {configType}_{name}.json: message: {message}";
+        
+        internal static string GetSheetConfigNotFound(string bookName, string sheetName) => $"Book: {bookName} - Config file for sheet: {sheetName}, not found.";
+
+        internal static string GetJsonConfigFileNotFound(string configType, string name) => $"Configuration file: {configType}_{name}.json, not found";
     }
 }

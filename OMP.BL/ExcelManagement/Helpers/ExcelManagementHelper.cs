@@ -5,8 +5,8 @@ using System.Linq;
 using OfficeOpenXml;
 using OMP.BL.ExcelManagement.Entities;
 using OMP.BL.ExcelManagement.Validation;
-using OMP.Shared;
 using OMP.Shared.Extensions;
+using OMP.Shared.Helpers;
 
 namespace OMP.BL.ExcelManagement.Helpers
 {
@@ -14,16 +14,7 @@ namespace OMP.BL.ExcelManagement.Helpers
     {
         public static BookConfig BookConfig { get; }
 
-        static ExcelManagementHelper()
-        {
-            BookConfig = new BookConfig();
-            // BookConfig = LoadWorkBookConfig("technical_orders", errors);
-        }
-
-        public static Workbook GetBookConfig(string bookName, List<string> errors)
-        {
-            return JsonConfigHelper.ReadJsonConfig<Workbook>(bookName, errors);
-        }
+        static ExcelManagementHelper() => BookConfig = new BookConfig();
 
         public static void LoadWorkBookConfig(string bookName, List<string> errors)
         {
@@ -36,23 +27,23 @@ namespace OMP.BL.ExcelManagement.Helpers
                     if (!string.IsNullOrEmpty(sheetConfig.Name)) 
                     {
                         BookConfig.Sheets.Add(sheet, sheetConfig);
-                        var sheetColumns = new Dictionary<string, Column>();
+                        var sheetColumns = new Dictionary<string, SheetColumn>();
                         foreach (var column in sheetConfig.Columns)
                         {
-                            var columnConfig = JsonConfigHelper.ReadJsonConfig<Column>(column, errors);
+                            var columnConfig = JsonConfigHelper.ReadJsonConfig<SheetColumn>(column, errors);
                             if (!string.IsNullOrEmpty(columnConfig.Name)) {
                                 sheetColumns.Add(column, columnConfig);
                             }
                             else
                             {
-                                errors.Add($"Sheet: {sheet} - Config file for column: {column}, not found.");
+                                errors.Add($"Sheet: {sheetConfig.SheetName} - Config file for column: {column}, not found.");
                             }
                         }
                         BookConfig.SheetColumns.Add(sheet, sheetColumns);
                     }
                     else
                     {
-                        errors.Add($"Book: {bookName} - Config file for sheet: {sheet}, not found.");
+                        errors.Add(MessageProvider.GetSheetConfigNotFound(bookName, sheetConfig.SheetName));
                     }
                 }
             }
@@ -96,9 +87,7 @@ namespace OMP.BL.ExcelManagement.Helpers
                     foreach (var column in columns.Keys)
                     {
                         var columnConfig = columns[column];
-                        object value = column == "sheet_row" ? new object() : worksheet.Cells[i, columnConfig.Number].Value;
-                        if (column != "sheet_row")
-                            sheetRow.Add(columnConfig.Name, value);
+                        sheetRow.Add(columnConfig.Name,  worksheet.Cells[i, columnConfig.ColumnNumber].Value);
                     }
                     object sheetRowObject = sheetRow.ToAnonymousObject();
                     BookConfig.Sheets[sheetName].Data.Add(sheetRowObject);                    

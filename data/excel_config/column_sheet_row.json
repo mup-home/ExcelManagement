@@ -1,12 +1,9 @@
 {
   "name": "id",
-  "dtoProperty": "",
-  "dbProperty": "",
+  "dbEntityProperty": "",
   "excelColumnName": "",
-  "number": 1,
+  "columnNumber": 1,
   "columnType": "number",
-  "isPrimaryKey": false,
-  "mandatory": false,
-  "value": null,
+  "isUniqueKey": false,
   "validationRules": []
 }

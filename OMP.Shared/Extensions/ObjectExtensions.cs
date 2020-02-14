@@ -3,6 +3,8 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
+    using OMP.Shared.Helpers;
 
     public static class ObjectExtensions
     {
@@ -88,6 +90,28 @@
             {
                 throw new InvalidOperationException("Cloning object error", ex);
             }
+        }
+
+        public static object ToAnonymousObject<TValue>(this IDictionary<string, TValue> value)
+        {
+            var types = new Type[value.Count];
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                types[i] = typeof(TValue);
+            }
+
+            var ordered = value.OrderBy(x => x.Key).ToArray();
+
+            string[] names = Array.ConvertAll(ordered, x => x.Key);
+
+            Type type = AnonymousTypeHelper.CreateType(types, names);
+
+            object[] values = Array.ConvertAll(ordered, x => (object)x.Value);
+
+            object anonymousObject = type.GetConstructor(types).Invoke(values);
+
+            return anonymousObject;
         }
     }
 }

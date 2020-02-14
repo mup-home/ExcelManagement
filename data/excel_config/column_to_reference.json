@@ -1,13 +1,10 @@
 {
   "name": "reference",
-  "dtoProperty": "reference",
-  "dbProperty": "reference",
+  "dbEntityProperty": "reference",
   "excelColumnName": "reference",
-  "number": 3,
+  "columnNumber": 3,
   "columnType": "String",
-  "isPrimaryKey": false,
-  "mandatory": true,
-  "value": null,
+  "isUniqueKey": false,
   "validationRules": [
     "mandatory",
     "length[7,10]"

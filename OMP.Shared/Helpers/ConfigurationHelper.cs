@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Utf8Json;
 
-namespace OMP.Shared
+namespace OMP.Shared.Helpers
 {
     public static class ConfigurationHelper
     {

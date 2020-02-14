@@ -1,5 +1,4 @@
-using OMP.BL.ExcelManagement.Enums;
-using OMP.Shared;
+using OMP.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,28 +14,33 @@ namespace OMP.BL.ExcelManagement.Helpers
             string configType = typeof(T).Name.ToLower();
             try
             {
-                string fileFullPath = $"{jsonConfigPath}/{configType}_{name}.json";
+                string fileFullPath = $"{jsonConfigPath}/{GetConfiTypeJsonPrefix(configType)}_{name}.json";
                 if (File.Exists(fileFullPath))
                 {
                     var jsonData = File.ReadAllText(fileFullPath);
                     return Utf8Json.JsonSerializer.Deserialize<T>(jsonData, StandardResolver.CamelCase);
                 }
-                errors?.Add($"Configuration file: {configType}_{name}.json, not found");
+                errors?.Add(MessageProvider.GetJsonConfigFileNotFound(configType, name));
                 return (T)Activator.CreateInstance(typeof(T));                
             }
             catch (Exception ex)
             {
                 if (ex.HResult == -2146233088)
                 {
-                    errors?.Add($"Invalid JSON format on file: {configType}_{name}.json: message: {ex.Message}");
+                    errors?.Add(MessageProvider.GetInvalidJsonConfigFormat(configType, name, ex.Message));
                     return (T)Activator.CreateInstance(typeof(T));
                 } 
                 else
                 {
-                    throw new FileNotFoundException($"Configuration file: {configType}_{name}.json, not found", ex);
+                    throw new FileNotFoundException(MessageProvider.GetJsonConfigFileNotFound(configType, name), ex);
                 }                
             }
             
+        }
+
+        private static object GetConfiTypeJsonPrefix(string configType)
+        {
+            return configType.Equals("sheetcolumn") ? "column" : configType;
         }
     }
 }

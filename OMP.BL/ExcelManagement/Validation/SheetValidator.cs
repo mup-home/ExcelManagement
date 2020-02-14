@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentValidation;
+﻿using FluentValidation;
 using OMP.BL.ExcelManagement.Entities;
 using OMP.BL.ExcelManagement.Enums;
 using OMP.BL.ExcelManagement.Helpers;
@@ -18,7 +16,6 @@ namespace OMP.BL.ExcelManagement.Validation
             RuleFor(s => s.Data)
                 .NotNull()
                 .WithMessage(s => MessageProvider.GetErrorMessage(ExcelValidationError.SheetWithoutData, s.Name));
-                //.SetValidator(s => new DuplicateRowValidator(s.Name));
             RuleForEach(s => s.Data)
                 .SetValidator(s => new SheetRowValidator(s.Name))
                 .When(s => s.Data != null && s.Data.Count > 0);

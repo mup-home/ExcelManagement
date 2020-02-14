@@ -32,7 +32,7 @@ namespace OMP.BL.ExcelManagement.Validation
             return isValidValue;
         }
 
-        protected private bool HasValidLength(PropertyValidatorContext context, Column column, object propertyValue, string validationRule)
+        protected private bool HasValidLength(PropertyValidatorContext context, SheetColumn column, object propertyValue, string validationRule)
         {
             var LengthBoundaries = validationRule.Substring(validationRule.IndexOf('[')).Replace("[","").Replace("]","");
             

@@ -1,13 +1,10 @@
 {
   "name": "part_type",
-  "dtoProperty": "Type",
+  "dbEntityProperty": "Type",
   "excelColumnName": "Type",
-  "dbProperty": "Type",
-  "number": 3,
+  "columnNumber": 3,
   "columnType": "String",
-  "isPrimaryKey": false,
-  "mandatory": false,
-  "value": null,
+  "isUniqueKey": false,
   "validationRules": [
     "length[4,10]"
   ]

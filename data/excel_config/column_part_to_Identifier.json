@@ -1,13 +1,10 @@
 {
   "name": "to_identifier",
-  "dtoProperty": "toId",
-  "dbProperty": "toId",
+  "dbEntityProperty": "toId",
   "excelColumnName": "TechnicalOrder",
-  "number": 1,
+  "columnNumber": 1,
   "columnType": "String",
   "isPrimaryKey": true,
-  "mandatory": true,
-  "value": null,
   "validationRules": [
     "mandatory",
     "length[7,10]"

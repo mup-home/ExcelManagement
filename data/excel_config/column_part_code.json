@@ -1,13 +1,10 @@
 {
   "name": "part_code",
-  "dtoProperty": "CodPart",
-  "dbProperty": "CodPart",
+  "dbEntityProperty": "CodPart",
   "excelColumnName": "Code",
-  "number": 2,
+  "columnNumber": 2,
   "columnType": "String",
-  "isPrimaryKey": true,
-  "mandatory": true,
-  "value": null,
+  "isUniqueKey": true,
   "validationRules": [
 	  "mandatory",
     "length[4,10]"

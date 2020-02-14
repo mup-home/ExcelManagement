@@ -14,7 +14,7 @@ namespace OMP.BL.ExcelManagement.Validation
 
         protected object data;
 
-        protected Column column;
+        protected SheetColumn column;
 
         public BasePropertyValidator(string sheetName, string ErrorMessage):  base(ErrorMessage)
         {

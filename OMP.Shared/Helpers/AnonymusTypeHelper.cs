@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 
-namespace OMP.BL.ExcelManagement.Helpers
+namespace OMP.Shared.Helpers
 {
     public static class AnonymousTypeHelper
     {

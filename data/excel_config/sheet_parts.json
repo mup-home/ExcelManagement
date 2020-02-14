@@ -5,10 +5,10 @@
   "totalColumns": 4,
   "validateFormat": true,
   "columns": [
-	"part_to_identifier",
-	"part_code",
-	"part_status",
-	"part_type"
+    "part_to_identifier",
+    "part_code",
+    "part_status",
+    "part_type"
 	],
   "data": []
 }
